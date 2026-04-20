@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Md. Kaif Faiyaz — Statistics & Evolutionary Computation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #0f1420;
+    --bg-card: #131926;
+    --bg-card-hover: #1a2235;
+    --text-primary: #e8edf5;
+    --text-secondary: #8a94a8;
+    --text-muted: #505a6e;
+    --accent: #4fc3f7;
+    --accent-dim: rgba(79,195,247,0.12);
+    --accent-glow: rgba(79,195,247,0.25);
+    --accent-warm: #f7a44f;
+    --accent-green: #4ff7a4;
+    --border: rgba(138,148,168,0.1);
+    --border-accent: rgba(79,195,247,0.2);
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-serif: 'Instrument Serif', serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Floating glow orbs ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-1 { width: 500px; height: 500px; top: -100px; right: -100px; background: rgba(79,195,247,0.06); }
+  .orb-2 { width: 400px; height: 400px; bottom: 20%; left: -150px; background: rgba(247,164,79,0.04); }
+  .orb-3 { width: 350px; height: 350px; top: 50%; right: 10%; background: rgba(79,247,164,0.03); }
+
+  /* ── Container ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 0;
+    backdrop-filter: blur(20px);
+    background: rgba(10,14,23,0.8);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  nav .container {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--text-muted); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── Hero Section ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 5rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-text .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards 0.2s;
+  }
+  .tag .blink {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .hero-text h1 {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards 0.4s;
+  }
+  .hero-text h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-text .bio {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards 0.6s;
+  }
+  .hero-text .bio a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-accent);
+    transition: border-color 0.2s;
+  }
+  .hero-text .bio a:hover { border-color: var(--accent); }
+  .hero-links {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeSlideUp 0.6s ease forwards 0.8s;
+  }
+  .hero-links a {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.25s ease;
+  }
+  .hero-links a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+    box-shadow: 0 0 20px rgba(79,195,247,0.08);
+  }
+
+  /* ── Hero visual: ASCII / Data art ── */
+  .hero-visual {
+    position: relative;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards 0.5s;
+  }
+  .terminal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .terminal-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid var(--border);
+  }
+  .terminal-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .terminal-dot.r { background: #ff5f57; }
+  .terminal-dot.y { background: #ffbd2e; }
+  .terminal-dot.g { background: #28c840; }
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-left: 0.5rem;
+  }
+  .terminal-body {
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+  .terminal-body .prompt { color: var(--accent-green); }
+  .terminal-body .cmd { color: var(--text-primary); }
+  .terminal-body .comment { color: var(--text-muted); font-style: italic; }
+  .terminal-body .output { color: var(--accent); }
+  .terminal-body .warn { color: var(--accent-warm); }
+
+  .scatter-canvas {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  /* ── Section styling ── */
+  section {
+    padding: 6rem 0;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--text-muted);
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: 2.8rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    line-height: 1.15;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── Research Interests ── */
+  .interests-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .interest-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .interest-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .interest-card:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+  }
+  .interest-card:hover::before { opacity: 1; }
+  .interest-icon {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+  .interest-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+  .interest-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ── Publications ── */
+  .pub-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .pub-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    padding: 1.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    align-items: start;
+  }
+  .pub-item:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-card-hover);
+  }
+  .pub-year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    padding-top: 0.3rem;
+  }
+  .pub-status {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+  }
+  .pub-status.published { background: rgba(79,247,164,0.1); color: var(--accent-green); }
+  .pub-status.review { background: rgba(247,164,79,0.1); color: var(--accent-warm); }
+  .pub-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+  }
+  .pub-content .authors {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  .pub-content .venue {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+  .pub-content .venue em { color: var(--accent); font-style: normal; }
+  .pub-content .abstract {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    line-height: 1.65;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .pub-item:hover .abstract { max-height: 200px; }
+
+  /* ── Education timeline ── */
+  .edu-timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+  .edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--border), transparent);
+  }
+  .edu-item {
+    position: relative;
+    padding: 0 0 3rem 0;
+  }
+  .edu-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 9px; height: 9px;
+    background: var(--bg-primary);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+  }
+  .edu-item:first-child::before {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .edu-date {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+  .edu-item h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .edu-item .edu-school {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  .edu-item .edu-detail {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+  }
+
+  /* ── Skills / Tools ── */
+  .skills-wrap {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-secondary);
+    letter-spacing: 0.03em;
+    transition: all 0.2s ease;
+  }
+  .skill-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ── Contact / Footer ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .contact-text p {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .contact-links {
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.25s ease;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .contact-link .link-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer-bar {
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bar p {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Mobile menu ── */
+  .menu-toggle {
+    display: none;
+    background: none; border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 20px; height: 1.5px;
+    background: var(--text-secondary);
+    margin: 4px 0;
+    transition: all 0.3s ease;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-text h1 { font-size: 2.5rem; }
+    .interests-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 2rem; }
+    .pub-item { grid-template-columns: 1fr; }
+    .pub-year { padding-bottom: 0.5rem; }
+    .menu-toggle { display: block; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      background: rgba(10,14,23,0.95);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      padding: 1.5rem 2rem;
+      gap: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-links.open { display: flex; }
+    .hero-visual { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container">
+    <div class="nav-logo">kaif<span>.faiyaz</span></div>
+    <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="files/Kaif_Faiyaz_Resume_Statistics.pdf" target="_blank">CV ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="tag"><span class="blink"></span> Prospective Ph.D. Applicant · Statistics</div>
+        <h1>Md. Kaif Faiyaz<br><em>Statistics &amp; Evolutionary Computation</em></h1>
+        <p class="bio">
+          BS-MS graduate from
+          <a href="https://www.iitk.ac.in" target="_blank">IIT Kanpur</a>
+          (Physics, minor in Industrial &amp; Management Engineering). Researching
+          <strong style="color:var(--text-primary)">evolutionary computation</strong> for non-stationary environments,
+          <strong style="color:var(--text-primary)">extreme value theory</strong>, and
+          <strong style="color:var(--text-primary)">quantum geometric transport</strong> — bridging
+          concentration inequalities, stochastic optimization, and condensed matter physics.
+        </p>
+        <div class="hero-links">
+          <a href="mailto:kaiffaiyazmd@gmail.com">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+          <a href="https://scholar.google.com/citations?user=02AO6ToAAAAJ&hl=en" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Google Scholar
+          </a>
+          <a href="https://github.com/JovialWanderer" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/kaif-faiyaz-850b851b4" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <span class="terminal-dot r"></span>
+            <span class="terminal-dot y"></span>
+            <span class="terminal-dot g"></span>
+            <span class="terminal-title">research_profile.R</span>
+          </div>
+          <div class="terminal-body">
+            <span class="comment"># ── Md. Kaif Faiyaz — Research Profile ──</span><br><br>
+            <span class="prompt">library</span>(<span class="output">evolutionary_computation</span>)<br>
+            <span class="prompt">library</span>(<span class="output">extreme_value_theory</span>)<br>
+            <span class="prompt">library</span>(<span class="output">quantum_geometry</span>)<br><br>
+            <span class="comment"># Research directions</span><br>
+            <span class="cmd">focus_1</span> <span class="prompt">&lt;-</span> <span class="warn">"Adaptive Genetic</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="warn">Algorithms (MAGA)"</span><br>
+            <span class="cmd">focus_2</span> <span class="prompt">&lt;-</span> <span class="warn">"Tail Dependence</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="warn">Estimation Bounds"</span><br><br>
+            <span class="comment"># Build the estimator</span><br>
+            <span class="cmd">bound</span> <span class="prompt">&lt;-</span> <span class="prompt">derive</span>(<br>
+            &nbsp;&nbsp;method&nbsp;&nbsp;&nbsp;&nbsp;= <span class="warn">"Bernstein + DKW"</span>,<br>
+            &nbsp;&nbsp;threshold = <span class="output">k_star</span>(n^(2/3)),<br>
+            &nbsp;&nbsp;rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="warn">"n^{-α/(2α+1)}"</span><br>
+            )
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ── Research Interests ── -->
+<section id="research">
+  <div class="container">
+    <div class="section-label fade-in">01 — Research</div>
+    <h2 class="section-title fade-in">Areas of <em>Interest</em></h2>
+    <div class="interests-grid">
+      <div class="interest-card fade-in">
+        <div class="interest-icon">{ 01 }</div>
+        <h3>Evolutionary Computation</h3>
+        <p>Adaptive genetic algorithms for non-stationary financial environments. MAGA framework integrating warmstart scheduling, Adam-based operator control, and dynamic fitness sharing with theoretical analysis via the Price equation.</p>
+      </div>
+      <div class="interest-card fade-in">
+        <div class="interest-icon">{ 02 }</div>
+        <h3>Extreme Value Theory</h3>
+        <p>Finite-sample error bounds for tail dependence estimators using Bernstein concentration and DKW inequalities. Optimal threshold selection, asymptotic normality via Lyapunov CLT, and applications to hydrological networks.</p>
+      </div>
+      <div class="interest-card fade-in">
+        <div class="interest-icon">{ 03 }</div>
+        <h3>Quantum Geometric Transport</h3>
+        <p>Semiclassical wave-packet dynamics under inhomogeneous electric fields. Derived quantum metric-induced Bloch oscillations and transport signatures in tilted Dirac systems with vanishing Berry curvature.</p>
+      </div>
+    </div>
+
+    <div class="skills-wrap fade-in">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">C++</span>
+      <span class="skill-tag">R</span>
+      <span class="skill-tag">PyTorch</span>
+      <span class="skill-tag">TensorFlow</span>
+      <span class="skill-tag">SQL</span>
+      <span class="skill-tag">LangChain</span>
+      <span class="skill-tag">HuggingFace</span>
+      <span class="skill-tag">Docker</span>
+      <span class="skill-tag">Kubernetes</span>
+      <span class="skill-tag">Monte Carlo Methods</span>
+      <span class="skill-tag">GARCH Models</span>
+      <span class="skill-tag">Copula Modeling</span>
+      <span class="skill-tag">Concentration Inequalities</span>
+      <span class="skill-tag">Genetic Programming</span>
+      <span class="skill-tag">LaTeX</span>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ── Publications ── -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label fade-in">02 — Publications</div>
+    <h2 class="section-title fade-in">Selected <em>Work</em></h2>
+    <div class="pub-list">
+
+      <div class="pub-item fade-in">
+        <div class="pub-year">2025</div>
+        <div class="pub-content">
+          <span class="pub-status review">Under Review</span>
+          <h3>MAGA: Multihead Adaptive Genetic Algorithm in Non-Stationary Environments</h3>
+          <p class="authors"><strong>Md. K. Faiyaz</strong>, T. Sandhan</p>
+          <p class="venue"><em>IEEE Transactions on Cybernetics</em> (submitted)</p>
+          <p class="abstract">Re-conceptualizes evolutionary search as a controlled stochastic dynamical system. Introduces warmstart scheduling with Bernstein-Serfling concentration bounds, Adam-inspired operator-rate adaptation, and Price equation–based selection dynamics. Validated across equity indices and FX pairs with consistent Sharpe ratio improvements.</p>
+        </div>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <span class="pub-status review">Under Review</span>
+          <h3>Electrically Driven Quantum Metric Bloch Oscillations</h3>
+          <p class="authors">M. M. Kumar, <strong>Md. K. Faiyaz</strong>, A. Agarwal</p>
+          <p class="venue"><em>Physical Review B</em> (submitted)</p>
+          <p class="abstract">Developed a modified semiclassical framework for electron wave-packet dynamics under inhomogeneous electric fields. Derived closed-form expressions for quantum metric-induced real-space oscillations and transport signatures in tilted Dirac systems with vanishing Berry curvature.</p>
+        </div>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-year">2025+</div>
+        <div class="pub-content">
+          <span class="pub-status" style="background: rgba(79,195,247,0.1); color: var(--accent);">In Preparation</span>
+          <h3>Finite-Sample Bounds for Tail Dependence Estimators</h3>
+          <p class="authors"><strong>Md. K. Faiyaz</strong></p>
+          <p class="venue">Manuscript in preparation</p>
+          <p class="abstract">Derives explicit finite-sample probability error bounds for nonparametric estimators of the upper tail dependence coefficient via Bernstein's inequality and DKW-based marginal estimation error. Establishes optimal threshold selection k* ≍ n^(2α/(2α+1)) and validates on Danube river network hydrology data.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="fade-in" style="font-family: var(--font-serif); font-size: 1.6rem; font-weight: 400; margin: 3rem 0 1.5rem; color: var(--text-secondary);">Selected <em style="color: var(--accent);">Projects</em></h3>
+    <div class="pub-list">
+
+      <div class="pub-item fade-in">
+        <div class="pub-year">2023</div>
+        <div class="pub-content">
+          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
+          <h3>Modeling Tail Dependence in Airline Stock Prices</h3>
+          <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. Arnab Hazra</p>
+          <p class="venue">IIT Kanpur</p>
+          <p class="abstract">Modeled joint upper/lower tail dependence in Indigo and SpiceJet log-returns during COVID-19 using a three-parameter copula with asymmetric Laplace components. Built a hierarchical Bayesian model for time-varying parameters with Gibbs/Metropolis-Hastings sampling.</p>
+        </div>
+      </div>
+
+      <div class="pub-item fade-in">
+        <div class="pub-year">2022</div>
+        <div class="pub-content">
+          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
+          <h3>Efficient Algorithm for Bayesian Nearest Neighbours</h3>
+          <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. Arnab Hazra</p>
+          <p class="venue">IIT Kanpur · MTH535A</p>
+          <p class="abstract">Implemented a change-point–based algorithm for the posterior distribution of optimal k in k-NN, avoiding MCMC entirely. Reduced misclassification from 0.104 to 0.036 on the Ripley dataset.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ── Education ── -->
+<section id="education">
+  <div class="container">
+    <div class="section-label fade-in">03 — Education</div>
+    <h2 class="section-title fade-in">Academic <em>Path</em></h2>
+    <div class="edu-timeline fade-in">
+      <div class="edu-item">
+        <div class="edu-date">2019 — 2024</div>
+        <h3>BS-MS Dual Degree in Physics</h3>
+        <p class="edu-school">Indian Institute of Technology Kanpur, India</p>
+        <p class="edu-detail">Minor: Industrial &amp; Management Engineering · CGPA: 8.42/10 (BS), 8.9/10 (MS) · JEE Advanced AIR 1419 / 250K</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-date">Research Advisors</div>
+        <h3>Academic Mentors at IIT Kanpur</h3>
+        <p class="edu-school">Cross-disciplinary supervision</p>
+        <p class="edu-detail">Prof. Tushar Sandhan (Evolutionary Computation &amp; Financial Alpha Discovery) · Prof. Amit K. Agarwal (Condensed Matter &amp; Quantum Geometry) · Prof. Arnab Hazra (Tail Dependence, Copulas &amp; Extreme Value Statistics)</p>
+      </div>
+    </div>
+
+    <h3 class="fade-in" style="font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400; margin: 2.5rem 0 1rem; color: var(--text-secondary);">Key <em style="color: var(--accent);">Coursework</em></h3>
+    <div class="skills-wrap fade-in">
+      <span class="skill-tag">Statistical Inference &amp; Data Analysis ★</span>
+      <span class="skill-tag">Bayesian Analysis ★</span>
+      <span class="skill-tag">Game Theory ★</span>
+      <span class="skill-tag">Stochastic Processes</span>
+      <span class="skill-tag">Data Structures &amp; Algorithms</span>
+      <span class="skill-tag">Real Analysis &amp; Multivariable Calculus ★</span>
+      <span class="skill-tag">Quantum Mechanics ★</span>
+      <span class="skill-tag">Statistical Mechanics</span>
+      <span class="skill-tag">Complex Analysis</span>
+      <span class="skill-tag">PDEs</span>
+      <span class="skill-tag">Linear Algebra</span>
+    </div>
+    <p class="fade-in" style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); margin-top: 0.5rem;">★ = A/A* grade</p>
+
+    <h3 class="fade-in" style="font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400; margin: 2.5rem 0 1rem; color: var(--text-secondary);">Competitive <em style="color: var(--accent);">Achievements</em></h3>
+    <div class="pub-list fade-in">
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 200px; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;">
+          <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem;">JEE ADVANCED 2019</div>
+          <div style="font-family: var(--font-serif); font-size: 1.2rem;">AIR 1,419</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">out of 250,000+ screened</div>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;">
+          <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem;">JEE MAINS 2019</div>
+          <div style="font-family: var(--font-serif); font-size: 1.2rem;">AIR 2,286</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">out of 1.6 million</div>
+        </div>
+        <div style="flex: 1; min-width: 200px; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;">
+          <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 0.3rem;">WBJEE 2019</div>
+          <div style="font-family: var(--font-serif); font-size: 1.2rem;">AIR 63</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">out of 130,000+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ── Experience ── -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label fade-in">04 — Experience</div>
+    <h2 class="section-title fade-in">Industry &amp; <em>Research</em></h2>
+    <div class="edu-timeline fade-in">
+      <div class="edu-item">
+        <div class="edu-date">Jul 2024 — Present</div>
+        <h3>Data Scientist II — Conversational Intelligence</h3>
+        <p class="edu-school">Aviso AI (Remote)</p>
+        <p class="edu-detail">Privacy-preserving multimodal deception detection · RAG-based decision support with DPO · Importance-sampling prompt optimization · Bimodal speech emotion recognition (+8% Macro-F1)</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-date">Nov — Dec 2024</div>
+        <h3>Global Alpha Researcher (Part-time)</h3>
+        <p class="edu-school">Trexquant LLP (Remote)</p>
+        <p class="edu-detail">Selected via Hangman Challenge (62.4% accuracy) · Built profitable strategies from Earnings Call data across multiple stock universes</p>
+      </div>
+      <div class="edu-item">
+        <div class="edu-date">May — Jul 2023</div>
+        <h3>Developer Intern</h3>
+        <p class="edu-school">Samsung Research Institute Bangalore</p>
+        <p class="edu-detail">Automated ML pipeline deployments · Ansible/Kubernetes/Docker orchestration on remote Linux servers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label fade-in">05 — Contact</div>
+    <h2 class="section-title fade-in">Get in <em>Touch</em></h2>
+    <div class="contact-grid fade-in">
+      <div class="contact-text">
+        <p>I'm actively seeking PhD positions in Statistics for Fall 2026. My research spans evolutionary computation, concentration inequalities, and quantum transport theory. If you're working on related problems or know of opportunities, I'd love to connect.</p>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:kaiffaiyazmd@gmail.com">
+          <div>
+            <div class="link-label">Email</div>
+            kaiffaiyazmd@gmail.com
+          </div>
+        </a>
+        <a class="contact-link" href="https://scholar.google.com/citations?user=02AO6ToAAAAJ&hl=en" target="_blank">
+          <div>
+            <div class="link-label">Google Scholar</div>
+            Publications &amp; Citations
+          </div>
+        </a>
+        <a class="contact-link" href="https://github.com/JovialWanderer" target="_blank">
+          <div>
+            <div class="link-label">GitHub</div>
+            @JovialWanderer
+          </div>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/kaif-faiyaz-850b851b4" target="_blank">
+          <div>
+            <div class="link-label">LinkedIn</div>
+            Kaif Faiyaz
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="footer-bar">
+    <p>© 2026 Md. Kaif Faiyaz · Kolkata, India</p>
+    <p>Built with concentration & convergence</p>
+  </div>
+</div>
+
+<script>
+// ── Intersection Observer for fade-in animations ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── Nav scroll effect ──
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  const scroll = window.scrollY;
+  if (scroll > 100) {
+    nav.style.padding = '0.6rem 0';
+  } else {
+    nav.style.padding = '1rem 0';
+  }
+  lastScroll = scroll;
+});
+</script>
+
+</body>
+</html>

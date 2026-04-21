@@ -209,6 +209,26 @@
     opacity: 0;
     animation: fadeSlideUp 0.8s ease forwards 0.5s;
   }
+  .profile-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    box-shadow: 0 0 25px var(--accent-glow);
+    transition: all 0.3s ease;
+  }
+
+  .profile-img:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
   .terminal-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -653,7 +673,11 @@
       </div>
 
       <div class="hero-visual">
+        <div class="profile-wrapper">
+          <img src="profile.jpg" alt="Kaif Faiyaz" class="profile-img">
+        </div>
         <div class="terminal-card">
+          <div class="terminal-card">
           <div class="terminal-header">
             <span class="terminal-dot r"></span>
             <span class="terminal-dot y"></span>

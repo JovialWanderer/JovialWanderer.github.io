@@ -9,24 +9,25 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-primary: #0a0e17;
-    --bg-secondary: #0f1420;
-    --bg-card: #131926;
-    --bg-card-hover: #1a2235;
-    --text-primary: #e8edf5;
-    --text-secondary: #8a94a8;
-    --text-muted: #505a6e;
-    --accent: #4fc3f7;
-    --accent-dim: rgba(79,195,247,0.12);
-    --accent-glow: rgba(79,195,247,0.25);
-    --accent-warm: #f7a44f;
-    --accent-green: #4ff7a4;
-    --border: rgba(138,148,168,0.1);
-    --border-accent: rgba(79,195,247,0.2);
-    --font-mono: 'JetBrains Mono', monospace;
-    --font-serif: 'Instrument Serif', serif;
-    --font-sans: 'DM Sans', sans-serif;
-  }
+  --bg-primary: #f8f7f4;
+  --bg-secondary: #f1efe9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fbfbfa;
+
+  --text-primary: #1e2430;
+  --text-secondary: #4e5968;
+  --text-muted: #7d8796;
+
+  --accent: #5c7c99;
+  --accent-dim: rgba(92,124,153,0.08);
+  --accent-glow: rgba(92,124,153,0.08);
+
+  --accent-warm: #b08968;
+  --accent-green: #5b8a72;
+
+  --border: rgba(30,36,48,0.08);
+  --border-accent: rgba(92,124,153,0.18);
+}
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -489,7 +490,6 @@
     background: var(--accent-dim);
   }
 
-  /* ── Contact / Footer ── */
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1003,12 +1003,30 @@
         </a>
       </div>
     </div>
+    <div class="fade-in" style="margin-top: 3rem;">
+      <h3 style="
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+      ">
+        Languages <em style="color: var(--accent);">Known</em>
+      </h3>
+
+      <div class="skills-wrap">
+        <span class="skill-tag">Bengali</span>
+        <span class="skill-tag">English</span>
+        <span class="skill-tag">Hindi</span>
+        <span class="skill-tag">German (Elementary)</span>
+      </div>
+    </div>
   </div>
 </section>
 
 <div class="container">
   <div class="footer-bar">
-    <p>© 2026/27 Md. Kaif Faiyaz · Kolkata, India</p>
+    <p> 2026/27 Md. Kaif Faiyaz · Kolkata, India</p>
     <p>Built with concentration & convergence</p>
   </div>
 </div>

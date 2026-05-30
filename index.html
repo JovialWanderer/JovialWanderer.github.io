@@ -834,10 +834,13 @@
         <div class="pub-content">
           <span class="pub-status prep">In Preparation</span>
           <h3>Finite-Sample Bounds for Tail Dependence Estimators</h3>
-          <p class="authors"><strong>Md. K. Faiyaz</strong></p>
+          <p class="authors"><strong>Md. Kaif Faiyaz</strong></p>
           <p class="venue">Manuscript in preparation</p>
           <p class="abstract">
-            Derives explicit finite-sample probability error bounds for nonparametric estimators of the upper tail dependence coefficient via Bernstein's inequality and DKW-based marginal estimation error. Establishes optimal threshold selection k* and validates on Danube river network hydrology data.
+            The tail dependence coefficient quantifies the probability that two systems experience extreme events simultaneously. Estimating this quantity requires selecting how many extreme observations to include: using too few yields high variance, while too many introduces bias. The optimal choice depends on an unknown smoothness parameter governing the joint tail behavior.
+            This work develops a finite-sample framework for tail dependence inference to address this challenge and derive explicit error bounds for two estimators of tail dependence- one based on known marginal distributions and one fully rank-based. We prove an oracle adaptivity theorem showing that a Lepski-type data-driven threshold selector achieves the same convergence rate as an oracle with knowledge of the smoothness parameter, up to a logarithmic factor.
+            To facilitate implementation, we introduce a plug-in estimator of the smoothness parameter that enables pair-specific threshold selection. We also show that standard normal confidence intervals over-cover in finite samples due to skewness in the estimator's distribution, and that the bias-corrected and accelerated bootstrap provides more accurate coverage with substantially narrower intervals. We apply the methodology to annual discharge maxima from 32 stations in the Danube river basin and to daily equity returns from 2000-2024.
+            The results reveal strong tail dependence between adjacent river stations and within-sector equity pairs, weaker dependence at river confluences, near-zero lower-tail dependence between equities and gold, and substantial increases in financial tail dependence during crisis periods. 
           </p>
         </div>
       </div>

@@ -355,18 +355,31 @@
   .pub-list { display: flex; flex-direction: column; gap: 1.5rem; }
   .pub-item {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 140px 1fr;
     gap: 1.5rem;
     padding: 1.75rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
     transition: all 0.3s ease;
-    align-items: start;
+    align-items: center;
   }
   .pub-item:hover {
     border-color: var(--border-accent);
     background: var(--bg-card-hover);
+  }
+  .pub-thumb {
+    width: 130px;
+    height: 130px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .pub-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .pub-year {
     font-family: var(--font-mono);
@@ -770,10 +783,36 @@
         <div class="pub-year">2024</div>
         <div class="pub-content">
           <span class="pub-status review">Under Review</span>
-          <h3>Electrically Driven Quantum Metric Bloch Oscillations</h3>
-          <p class="authors">M. M. Kumar, <strong>Md. K. Faiyaz</strong>, A. Agarwal</p>
-          <p class="venue"><em>Physical Review B</em> (submitted)</p>
-          <p class="abstract">Developed a modified semiclassical framework for electron wave-packet dynamics under inhomogeneous electric fields. Derived closed-form expressions for quantum metric-induced real-space oscillations and transport signatures in tilted Dirac systems with vanishing Berry curvature.</p>
+          <h3>Quantum-metric Bloch oscillations in weakly inhomogeneous electric fields</h3>
+          <div class="pub-item fade-in">
+            <div class="pub-thumb">
+              <a href="https://arxiv.org/pdf/2605.22227" target="_blank">
+                <img src="FigureQBOsc.png"
+                     alt="Quantum Metric Bloch Oscillations">
+              </a>
+            </div>
+          <div class="pub-content">
+            <span class="pub-status review">arXiv</span>
+            <h3>
+              <a href="https://arxiv.org/pdf/2605.22227"
+                target="_blank"
+                style="text-decoration:none;color:inherit;">
+                Quantum-Metric Bloch Oscillations in Weakly Inhomogeneous Electric Fields
+              </a>
+            </h3>
+            <p class="authors">
+              M. Maneesh Kumar,
+              <strong>Md Kaif Faiyaz</strong>,
+              Sayan Sarkar,
+              Amit Agarwal
+            </p>
+            <p class="venue">
+              <em>Physical Review B</em> (submitted)
+            </p>
+            <p class="abstract">
+              Geometric analogs of Bloch oscillations studied so far have relied on Berry curvature. We show that a weakly inhomogeneous electric field adds a distinct quantum-metric term to semiclassical wavepacket dynamics, generating an oscillatory real-space contribution even when the Berry curvature vanishes. The associated transport response comprises an intrinsic and a scattering-time-dependent part. In the regime studied, the latter can dominate and approach finite saturation at high field when the relative field inhomogeneity is held fixed. A tilted Dirac model illustrates the mechanism. Realistic platforms will likely require synthetically engineered superlattices, with a finite quantum metric and an adequate band gap.
+            </p>
+          </div>
         </div>
       </div>
 

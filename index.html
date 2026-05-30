@@ -59,7 +59,6 @@
     z-index: 0;
   }
 
-  /* ── Floating glow orbs ── */
   .orb {
     position: fixed;
     border-radius: 50%;
@@ -71,7 +70,6 @@
   .orb-2 { width: 400px; height: 400px; bottom: 20%; left: -150px; background: rgba(247,164,79,0.04); }
   .orb-3 { width: 350px; height: 350px; top: 50%; right: 10%; background: rgba(79,247,164,0.03); }
 
-  /* ── Container ── */
   .container {
     position: relative;
     z-index: 1;
@@ -80,7 +78,6 @@
     padding: 0 2rem;
   }
 
-  /* ── Navigation ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
@@ -122,7 +119,6 @@
   .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::after { width: 100%; }
 
-  /* ── Hero Section ── */
   .hero {
     min-height: 100vh;
     display: flex; align-items: center;
@@ -204,7 +200,6 @@
     box-shadow: 0 0 20px rgba(79,195,247,0.08);
   }
 
-  /* ── Hero visual: ASCII / Data art ── */
   .hero-visual {
     position: relative;
     opacity: 0;
@@ -215,7 +210,6 @@
     justify-content: center;
     margin-bottom: 1.5rem;
   }
-
   .profile-img {
     width: 140px;
     height: 140px;
@@ -225,7 +219,6 @@
     box-shadow: 0 0 25px var(--accent-glow);
     transition: all 0.3s ease;
   }
-
   .profile-img:hover {
     border-color: var(--accent);
     box-shadow: 0 0 40px var(--accent-glow);
@@ -268,15 +261,6 @@
   .terminal-body .output { color: var(--accent); }
   .terminal-body .warn { color: var(--accent-warm); }
 
-  .scatter-canvas {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: rgba(0,0,0,0.2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-
-  /* ── Section styling ── */
   section {
     padding: 6rem 0;
   }
@@ -303,7 +287,6 @@
   }
   .section-title em { font-style: italic; color: var(--accent); }
 
-  /* ── Research Interests ── */
   .interests-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -353,40 +336,51 @@
 
   /* ── Publications ── */
   .pub-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
   .pub-item {
     display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 100px 1fr;
+    gap: 2rem;
     padding: 1.75rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
     transition: all 0.3s ease;
-    align-items: center;
+    align-items: start;
   }
   .pub-item:hover {
     border-color: var(--border-accent);
     background: var(--bg-card-hover);
   }
-  .pub-thumb {
-    width: 130px;
-    height: 130px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: #fff;
-  }
-  .pub-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+  .pub-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
   .pub-year {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     color: var(--text-muted);
-    padding-top: 0.3rem;
+    white-space: nowrap;
   }
+  .pub-thumb {
+    width: 85px;
+    height: 85px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+  .pub-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .pub-status {
     display: inline-block;
     font-family: var(--font-mono);
@@ -395,26 +389,36 @@
     text-transform: uppercase;
     padding: 0.2rem 0.5rem;
     border-radius: 3px;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
   .pub-status.published { background: rgba(79,247,164,0.1); color: var(--accent-green); }
-  .pub-status.review { background: rgba(247,164,79,0.1); color: var(--accent-warm); }
+  .pub-status.review    { background: rgba(247,164,79,0.1);  color: var(--accent-warm); }
+  .pub-status.prep      { background: rgba(79,195,247,0.1);  color: var(--accent); }
+  .pub-status.project   { background: rgba(138,148,168,0.08); color: var(--text-secondary); }
+
   .pub-content h3 {
     font-family: var(--font-serif);
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: 400;
     line-height: 1.4;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
   }
+  .pub-content h3 a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+  }
+  .pub-content h3 a:hover { color: var(--accent); }
   .pub-content .authors {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
   .pub-content .venue {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--text-muted);
+    margin-bottom: 0;
   }
   .pub-content .venue em { color: var(--accent); font-style: normal; }
   .pub-content .abstract {
@@ -426,7 +430,7 @@
     overflow: hidden;
     transition: max-height 0.4s ease;
   }
-  .pub-item:hover .abstract { max-height: 200px; }
+  .pub-item:hover .abstract { max-height: 300px; }
 
   /* ── Education timeline ── */
   .edu-timeline {
@@ -482,7 +486,6 @@
     margin-top: 0.4rem;
   }
 
-  /* ── Skills / Tools ── */
   .skills-wrap {
     display: flex; flex-wrap: wrap; gap: 0.6rem;
     margin-top: 2rem;
@@ -552,13 +555,11 @@
     color: var(--text-muted);
   }
 
-  /* ── Divider ── */
   .divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--border), transparent);
   }
 
-  /* ── Animations ── */
   @keyframes fadeSlideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -566,10 +567,6 @@
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
-  }
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
   }
 
   .fade-in {
@@ -582,7 +579,6 @@
     transform: translateY(0);
   }
 
-  /* ── Mobile menu ── */
   .menu-toggle {
     display: none;
     background: none; border: none;
@@ -597,7 +593,6 @@
     transition: all 0.3s ease;
   }
 
-  /* ── Responsive ── */
   @media (max-width: 768px) {
     .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .hero-text h1 { font-size: 2.5rem; }
@@ -605,7 +600,7 @@
     .contact-grid { grid-template-columns: 1fr; }
     .section-title { font-size: 2rem; }
     .pub-item { grid-template-columns: 1fr; }
-    .pub-year { padding-bottom: 0.5rem; }
+    .pub-meta { flex-direction: row; align-items: center; }
     .menu-toggle { display: block; }
     .nav-links {
       display: none;
@@ -690,7 +685,6 @@
           <img src="profile.png" alt="Kaif Faiyaz" class="profile-img">
         </div>
         <div class="terminal-card">
-          <div class="terminal-card">
           <div class="terminal-header">
             <span class="terminal-dot r"></span>
             <span class="terminal-dot y"></span>
@@ -706,7 +700,6 @@
             <span class="cmd">focus_1</span> <span class="prompt">&lt;-</span> <span class="warn">"Adaptive Genetic Algorithms"</span><br>
             <span class="cmd">focus_2</span> <span class="prompt">&lt;-</span> <span class="warn">"Tail Dependence, Estimation Bounds"</span><br>
             <span class="cmd">focus_3</span> <span class="prompt">&lt;-</span> <span class="warn">"Quantum metric Bloch oscillations"</span><br><br>
-          </div>
           </div>
         </div>
       </div>
@@ -766,32 +759,23 @@
   <div class="container">
     <div class="section-label fade-in">02 — Publications</div>
     <h2 class="section-title fade-in">Selected <em>Work</em></h2>
+
     <div class="pub-list">
 
+      <!-- MAGA Paper -->
       <div class="pub-item fade-in">
-        <div class="pub-year">Submitted</div>
+        <div class="pub-meta">
+          <div class="pub-year">Submitted</div>
+          <div class="pub-thumb">
+            <img src="MAGAMain14_page.jpg" alt="MAGA Framework">
+          </div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status review">Under Review</span>
-          <h3>MAGA: Multihead Adaptive Genetic Algorithm in Non-Stationary Environments</h3>
-          <div class="pub-item fade-in">
-            <div class="pub-thumb">
-                <img src="MAGAMain14_page.jpg"
-                     alt="MAGA Framework">
-              </a>
-            </div>
-          <div class="pub-content">
-            <span class="pub-status review">IEEE</span>
-            <h3>
-              <a href="https://drive.google.com/drive/folders/1bjnxAeykeFuHNKEbnBOONClp-qD870B3?usp=drive_link"
-                target="_blank"
-                style="text-decoration:none;color:inherit;">
-                MAGA: Multihead Adaptive Genetic Algorithm in Non-Stationary Environments
-              </a>
-            </h3>
-        <div class="pub-content">
-          <span class="pub-status review">Under Review</span>
+          <span class="pub-status review">Under Review · IEEE</span>
           <h3>
-            MAGA: Multihead Adaptive Genetic Algorithm in Non-Stationary Environments
+            <a href="https://drive.google.com/drive/folders/1bjnxAeykeFuHNKEbnBOONClp-qD870B3?usp=drive_link" target="_blank">
+              MAGA: Multihead Adaptive Genetic Algorithm in Non-Stationary Environments
+            </a>
           </h3>
           <p class="authors">
             <strong>Md. Kaif Faiyaz</strong>,
@@ -805,68 +789,71 @@
             <em>IEEE Transactions on Cybernetics</em> (under review)
           </p>
           <p class="abstract">
-            Standard evolutionary computation (EC) methods are poorly suited to non-stationary environments because their search dynamics are typically governed by fixed or reactive parameter settings that do not adapt smoothly across changing regimes. To address this limitation, we propose MAGA, a multihead adaptive genetic algorithm for financial alpha discovery in walk-forward settings. MAGA re-conceptualizes EC parameters as schedulable hyperparameters and integrates three complementary mechanisms: (i) a consecutive warmstart scheduler controlling temporal knowledge transfer, (ii) an Adam-inspired online controller that adaptively updates operator rates and (iii) a dynamic fitness-sharing scheme that preserves behavioural diversity while mitigating premature convergence. In addition, MAGA employs a multihead population architecture in which regime-specific genetic programming(GP) subpopulations evolve in parallel and are combined through regime-conditioned selection. We provide theoretical analyzes of the warmstart and selection dynamics and validate the proposed mechanisms through component-wise ablation studies. Extensive experiments on equity indices and currency pairs show that the full MAGA framework consistently outperforms strong baseline methods, achieving improved Sharpe ratios and lower drawdowns across multiple instruments. These results suggest that EC parameter control can be framed as a principled multi-level scheduling problem for adaptive search in financial environments.
+            Standard evolutionary computation (EC) methods are poorly suited to non-stationary environments because their search dynamics are typically governed by fixed or reactive parameter settings that do not adapt smoothly across changing regimes. To address this limitation, we propose MAGA, a multihead adaptive genetic algorithm for financial alpha discovery in walk-forward settings. MAGA re-conceptualizes EC parameters as schedulable hyperparameters and integrates three complementary mechanisms: (i) a consecutive warmstart scheduler controlling temporal knowledge transfer, (ii) an Adam-inspired online controller that adaptively updates operator rates and (iii) a dynamic fitness-sharing scheme that preserves behavioural diversity while mitigating premature convergence. In addition, MAGA employs a multihead population architecture in which regime-specific genetic programming (GP) subpopulations evolve in parallel and are combined through regime-conditioned selection. We provide theoretical analyses of the warmstart and selection dynamics and validate the proposed mechanisms through component-wise ablation studies. Extensive experiments on equity indices and currency pairs show that the full MAGA framework consistently outperforms strong baseline methods, achieving improved Sharpe ratios and lower drawdowns across multiple instruments.
           </p>
         </div>
       </div>
 
+      <!-- Quantum Bloch Oscillations Paper -->
       <div class="pub-item fade-in">
-        <div class="pub-year">2026</div>
-        <div class="pub-content">
-          <span class="pub-status review">Under Review</span>
-          <h3>Quantum-metric Bloch oscillations in weakly inhomogeneous electric fields</h3>
-          <div class="pub-item fade-in">
-            <div class="pub-thumb">
-              <a href="https://arxiv.org/pdf/2605.22227" target="_blank">
-                <img src="FigureQBOsc.png"
-                     alt="Quantum Metric Bloch Oscillations">
-              </a>
-            </div>
-          <div class="pub-content">
-            <span class="pub-status review">arXiv</span>
-            <h3>
-              <a href="https://arxiv.org/pdf/2605.22227"
-                target="_blank"
-                style="text-decoration:none;color:inherit;">
-                Quantum-Metric Bloch Oscillations in Weakly Inhomogeneous Electric Fields
-              </a>
-            </h3>
-            <p class="authors">
-              M. Maneesh Kumar,
-              <strong>Md Kaif Faiyaz</strong>,
-              Sayan Sarkar,
-              Amit Agarwal
-            </p>
-            <p class="venue">
-              <em>Physical Review B</em> (submitted)
-            </p>
-            <p class="abstract">
-              Geometric analogs of Bloch oscillations studied so far have relied on Berry curvature. We show that a weakly inhomogeneous electric field adds a distinct quantum-metric term to semiclassical wavepacket dynamics, generating an oscillatory real-space contribution even when the Berry curvature vanishes. The associated transport response comprises an intrinsic and a scattering-time-dependent part. In the regime studied, the latter can dominate and approach finite saturation at high field when the relative field inhomogeneity is held fixed. A tilted Dirac model illustrates the mechanism. Realistic platforms will likely require synthetically engineered superlattices, with a finite quantum metric and an adequate band gap.
-            </p>
+        <div class="pub-meta">
+          <div class="pub-year">2026</div>
+          <div class="pub-thumb">
+            <a href="https://arxiv.org/pdf/2605.22227" target="_blank">
+              <img src="FigureQBOsc.png" alt="Quantum Metric Bloch Oscillations">
+            </a>
           </div>
+        </div>
+        <div class="pub-content">
+          <span class="pub-status review">Under Review · arXiv</span>
+          <h3>
+            <a href="https://arxiv.org/pdf/2605.22227" target="_blank">
+              Quantum-Metric Bloch Oscillations in Weakly Inhomogeneous Electric Fields
+            </a>
+          </h3>
+          <p class="authors">
+            M. Maneesh Kumar,
+            <strong>Md Kaif Faiyaz</strong>,
+            Sayan Sarkar,
+            Amit Agarwal
+          </p>
+          <p class="venue">
+            <em>Physical Review B</em> (submitted)
+          </p>
+          <p class="abstract">
+            Geometric analogs of Bloch oscillations studied so far have relied on Berry curvature. We show that a weakly inhomogeneous electric field adds a distinct quantum-metric term to semiclassical wavepacket dynamics, generating an oscillatory real-space contribution even when the Berry curvature vanishes. The associated transport response comprises an intrinsic and a scattering-time-dependent part. In the regime studied, the latter can dominate and approach finite saturation at high field when the relative field inhomogeneity is held fixed. A tilted Dirac model illustrates the mechanism. Realistic platforms will likely require synthetically engineered superlattices, with a finite quantum metric and an adequate band gap.
+          </p>
         </div>
       </div>
 
+      <!-- Finite-Sample Bounds -->
       <div class="pub-item fade-in">
-        <div class="pub-year">2025+</div>
+        <div class="pub-meta">
+          <div class="pub-year">2025+</div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status" style="background: rgba(79,195,247,0.1); color: var(--accent);">In Preparation</span>
+          <span class="pub-status prep">In Preparation</span>
           <h3>Finite-Sample Bounds for Tail Dependence Estimators</h3>
           <p class="authors"><strong>Md. K. Faiyaz</strong></p>
           <p class="venue">Manuscript in preparation</p>
-          <p class="abstract">Derives explicit finite-sample probability error bounds for nonparametric estimators of the upper tail dependence coefficient via Bernstein's inequality and DKW-based marginal estimation error. Establishes optimal threshold selection k* and validates on Danube river network hydrology data.</p>
+          <p class="abstract">
+            Derives explicit finite-sample probability error bounds for nonparametric estimators of the upper tail dependence coefficient via Bernstein's inequality and DKW-based marginal estimation error. Establishes optimal threshold selection k* and validates on Danube river network hydrology data.
+          </p>
         </div>
       </div>
 
     </div>
 
+    <!-- Projects subsection -->
     <h3 class="fade-in" style="font-family: var(--font-serif); font-size: 1.6rem; font-weight: 400; margin: 3rem 0 1.5rem; color: var(--text-secondary);">Selected <em style="color: var(--accent);">Projects</em></h3>
     <div class="pub-list">
 
       <div class="pub-item fade-in">
-        <div class="pub-year">2023</div>
+        <div class="pub-meta">
+          <div class="pub-year">2023</div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
+          <span class="pub-status project">Project</span>
           <h3>Modeling Tail Dependence in Airline Stock Prices</h3>
           <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. Arnab Hazra</p>
           <p class="venue">IIT Kanpur</p>
@@ -875,9 +862,11 @@
       </div>
 
       <div class="pub-item fade-in">
-        <div class="pub-year">2022</div>
+        <div class="pub-meta">
+          <div class="pub-year">2022</div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
+          <span class="pub-status project">Project</span>
           <h3>Efficient Algorithm for Bayesian Nearest Neighbours</h3>
           <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. Arnab Hazra</p>
           <p class="venue">IIT Kanpur · MTH535A</p>
@@ -886,9 +875,11 @@
       </div>
 
       <div class="pub-item fade-in">
-        <div class="pub-year">2022</div>
+        <div class="pub-meta">
+          <div class="pub-year">2022</div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
+          <span class="pub-status project">Project</span>
           <h3>Multi-Company Multi-Period Demand Response Management in Smart Grid</h3>
           <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. V. Ramani</p>
           <p class="venue">IIT Kanpur</p>
@@ -897,10 +888,12 @@
       </div>
 
       <div class="pub-item fade-in">
-        <div class="pub-year">2022</div>
+        <div class="pub-meta">
+          <div class="pub-year">2022</div>
+        </div>
         <div class="pub-content">
-          <span class="pub-status" style="background: rgba(138,148,168,0.08); color: var(--text-secondary);">Project</span>
-          <h3>Application of Weibull Distribution & Weibull Process</h3>
+          <span class="pub-status project">Project</span>
+          <h3>Application of Weibull Distribution &amp; Weibull Process</h3>
           <p class="authors"><strong>Md. K. Faiyaz</strong> · Supervisor: Prof. Arnab Hazra</p>
           <p class="venue">IIT Kanpur</p>
           <p class="abstract">Modeled multi-seasonal wind speed distributions using mixtures of Weibull densities and performed constrained maximum likelihood estimation. Developed a Monte Carlo EM algorithm for parameter estimation under censored data and validated model fit via statistical tests.</p>
@@ -1003,36 +996,31 @@
 </section>
 
 <div class="container"><div class="divider"></div></div>
-<div class="container"><div class="divider"></div></div>
 
+<!-- ── Teaching & Leadership ── -->
 <section id="teaching">
   <div class="container">
     <div class="section-label fade-in">05 — Teaching &amp; Leadership</div>
     <h2 class="section-title fade-in">Teaching &amp; <em>Leadership</em></h2>
-
     <div class="edu-timeline fade-in">
-
       <div class="edu-item">
         <div class="edu-date">Jan 2024 — Apr 2024</div>
         <h3>Teaching Assistant — Measurement Techniques (PHY692A)</h3>
         <p class="edu-school">Indian Institute of Technology Kanpur</p>
         <p class="edu-detail">Designed and evaluated advanced laboratory experiments for graduate-level students and conducted lab examinations.</p>
       </div>
-
       <div class="edu-item">
         <div class="edu-date">Aug 2023 — Nov 2023</div>
         <h3>Teaching Assistant — Oscillations &amp; Waves (PHY115A)</h3>
         <p class="edu-school">Indian Institute of Technology Kanpur</p>
         <p class="edu-detail">Supported instruction for 240+ students, conducted experiments, graded assignments, and led discussion sessions.</p>
       </div>
-
       <div class="edu-item">
         <div class="edu-date">2019 — 2020</div>
         <h3>NSS Volunteer</h3>
         <p class="edu-school">IIT Kanpur</p>
         <p class="edu-detail">Taught basic computer literacy to school students in rural communities.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -1040,7 +1028,7 @@
 <!-- ── Contact ── -->
 <section id="contact">
   <div class="container">
-    <div class="section-label fade-in">05 — Contact</div>
+    <div class="section-label fade-in">06 — Contact</div>
     <h2 class="section-title fade-in">Get in <em>Touch</em></h2>
     <div class="contact-grid fade-in">
       <div class="contact-text">
@@ -1074,16 +1062,9 @@
       </div>
     </div>
     <div class="fade-in" style="margin-top: 3rem;">
-      <h3 style="
-        font-family: var(--font-serif);
-        font-size: 1.4rem;
-        font-weight: 400;
-        margin-bottom: 1rem;
-        color: var(--text-secondary);
-      ">
+      <h3 style="font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 1rem; color: var(--text-secondary);">
         Languages <em style="color: var(--accent);">Known</em>
       </h3>
-
       <div class="skills-wrap">
         <span class="skill-tag">Bengali</span>
         <span class="skill-tag">English</span>
@@ -1096,12 +1077,11 @@
 
 <div class="container">
   <div class="footer-bar">
-    <p> Md. Kaif Faiyaz · Kolkata, West Bengal,India</p>
+    <p>Md. Kaif Faiyaz · Kolkata, West Bengal, India</p>
   </div>
 </div>
 
 <script>
-// ── Intersection Observer for fade-in animations ──
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
@@ -1113,16 +1093,11 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// ── Nav scroll effect ──
 let lastScroll = 0;
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
   const scroll = window.scrollY;
-  if (scroll > 100) {
-    nav.style.padding = '0.6rem 0';
-  } else {
-    nav.style.padding = '1rem 0';
-  }
+  nav.style.padding = scroll > 100 ? '0.6rem 0' : '1rem 0';
   lastScroll = scroll;
 });
 </script>
